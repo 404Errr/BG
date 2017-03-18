@@ -15,13 +15,25 @@ public class Slot implements GameData {
 	}
 
 	public boolean canMoveTo(int color) {
-		if (this.color==color) return true;//of same color
-		else if (stoneCount<=1) return true;//is empty or only has 1 stone (of enemy)
+		if (this.color==color||stoneCount<=1) return true;
 		return false;
 	}
 
 	public void cap() {
 		color = (color!=A)?A:B;
+	}
+
+	public void remove() {
+		stoneCount--;
+		if (stoneCount<=0) {
+			stoneCount = 0;
+			color = EMPTY;
+		}
+	}
+
+	public void add(int color) {
+		stoneCount++;
+		this.color = color;
 	}
 
 	public int getColor() {
