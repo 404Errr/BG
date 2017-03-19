@@ -1,9 +1,8 @@
-package game;
+package board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import board.Slot;
 import data.GameData;
 
 public class Board implements GameData {

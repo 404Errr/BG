@@ -15,12 +15,7 @@ public class Slot implements GameData {
 	}
 
 	public boolean canMoveTo(int color) {
-		if (this.color==color||stoneCount<=1) return true;
-		return false;
-	}
-
-	public void cap() {
-		color = (color!=A)?A:B;
+		return this.color==color||stoneCount<=1;
 	}
 
 	public void remove() {
