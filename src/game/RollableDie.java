@@ -2,17 +2,21 @@ package game;
 
 import java.util.Random;
 
-public class Die {
+public class RollableDie {
 	private final int sideCount;
-	private int value;
 	private static Random rand;
+	private int value;
 
 	static {
 		rand = new Random();
 	}
 
-	public Die(int sideCount, boolean roll) {
+	public RollableDie(int sideCount) {
 		this.sideCount = sideCount;
+	}
+
+	public RollableDie(int sideCount, boolean roll) {
+		this(sideCount);
 		if (roll) roll();
 	}
 

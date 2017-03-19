@@ -13,13 +13,20 @@ import java.awt.event.WindowListener;
 import javax.swing.event.MouseInputListener;
 
 import data.GameData;
+import game.Game;
 
 public class Input implements KeyListener, MouseInputListener, MouseWheelListener, ComponentListener, WindowListener, GameData {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		try {
 			switch (e.getKeyCode()) {
-
+			case KeyEvent.VK_R:
+				Game.rollDice();
+				Game.refreshDiceToUse();
+				break;
+			case KeyEvent.VK_T:
+				Game.cycleTurn();
+				break;
 			}
 		}
 		catch (Exception e1) {}

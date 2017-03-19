@@ -6,27 +6,27 @@ import java.util.List;
 import data.GameData;
 
 public class Board implements GameData {
-	private final Slot[] board;
+	private final Point[] points;
 
 	public Board(int[][] layout) {
-		List<Slot> slotList = new ArrayList<>();
+		List<Point> pointList = new ArrayList<>();
 		for (int i = 0;i<layout.length;i++) {
 			if (layout[i].length==2) {
-				slotList.add(new Slot(layout[i][0], layout[i][1]));
+				pointList.add(new Point(i, layout[i][0], layout[i][1]));
 			}
 			else {
 				for (int j = 0;j<layout[i][0];j++) {
-					slotList.add(new Slot());
+					pointList.add(new Point(i));
 				}
 			}
 		}
-		board = new Slot[slotList.size()];
-		for (int i = 0;i<slotList.size();i++) {
-			board[i] = slotList.get(i);
+		points = new Point[pointList.size()];
+		for (int i = 0;i<pointList.size();i++) {
+			points[i] = pointList.get(i);
 		}
 	}
 
-	public Slot[] getBoard() {
-		return board;
+	public Point[] getPoints() {
+		return points;
 	}
 }

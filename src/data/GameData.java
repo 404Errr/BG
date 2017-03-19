@@ -9,6 +9,5 @@ public interface GameData {
 
 	int[][] LAYOUT = Layout.LAYOUT_0;
 
-//	Color COLOR_A = new Color(0xffffff);
-//	Color COLOR_B = new Color(0x000000);
+	int MARGIN = 100, CHECKER_SIZE = 50;
 }

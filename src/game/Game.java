@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import board.Board;
@@ -8,19 +9,24 @@ import data.GameData;
 public class Game implements GameData {
 	private static Board board;
 	private static int turn;
-	private static Die[] dice;
-	private static List<Integer> diceToUse;
+	private static RollableDie[] dice;
+	private static List<UseableDie> diceToUse;
 
 	public static void init() {
 		board = new Board(LAYOUT);
-		dice = new Die[2];
-		for (int i = 0;i<dice.length;i++) dice[i] = new Die(6, false);
+		dice = new RollableDie[2];
+		for (int i = 0;i<dice.length;i++) dice[i] = new RollableDie(6);
+		diceToUse = new ArrayList<>();
 		turn = A;
+		rollDice();
+		refreshDiceToUse();
 	}
 
 	public static void refreshDiceToUse() {
-		diceToUse.isEmpty();
-		for (int i = 0;i<2;i++) diceToUse.add(dice[i].getValue());
+		diceToUse.clear();
+		for (int i = 0;i<1||(i<2&&dice[0].getValue()==dice[1].getValue());i++) {
+			for (int j = 0;j<2;j++) diceToUse.add(new UseableDie(dice[j].getValue()));
+		}
 	}
 
 	public static void rollDice() {
@@ -31,7 +37,7 @@ public class Game implements GameData {
 		turn = (turn!=A)?A:B;
 	}
 
-	public static Die[] getDice() {
+	public static RollableDie[] getDice() {
 		return dice;
 	}
 
@@ -41,6 +47,10 @@ public class Game implements GameData {
 
 	public static int getTurn() {
 		return turn;
+	}
+
+	public static List<UseableDie> getDiceToUse() {
+		return diceToUse;
 	}
 
 
