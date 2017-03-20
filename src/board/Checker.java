@@ -2,10 +2,12 @@ package board;
 
 import java.awt.geom.Rectangle2D;
 
+import data.GraphicsData;
 import data.InputData;
+import graphics.Window;
 import input.Cursor;
 
-public class Checker implements InputData {
+public class Checker implements GraphicsData {
 	private final int color;
 	private Point point;
 	private boolean hovered;
@@ -17,9 +19,10 @@ public class Checker implements InputData {
 	public void tick() {
 		hovered = getBounds().contains(Cursor.getBoardX(), Cursor.getBoardY());
 	}
-
-	public Rectangle2D getBounds() {f//FIXME
-		return new Rectangle2D.Float(ORIGIN_X+CHECKER_SIZE*point.getPointNum(), ORIGIN_Y+CHECKER_SIZE*point.getCheckers().indexOf(this), CHECKER_SIZE, CHECKER_SIZE);
+e
+	public Rectangle2D getBounds() {//FIXME
+//		System.out.println(Window.getOriginX()+"\t"+Window.getOriginY());
+		return new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*point.getPointNum(), Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this), CHECKER_SIZE, CHECKER_SIZE);
 	}
 
 	public boolean isHovered() {

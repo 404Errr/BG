@@ -1,67 +1,38 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 import board.Board;
 import data.GameData;
 
 public class Game implements GameData {
-	private static Board board;
-	private static int turn;
-	private static RollableDie[] dice;
-	private static List<UseableDie> diceToUse;
-
-	public static void init() {
-		board = new Board(LAYOUT);
-		dice = new RollableDie[2];
-		for (int i = 0;i<dice.length;i++) dice[i] = new RollableDie(6);
-		diceToUse = new ArrayList<>();
-		turn = A;
-		rollDice();
-		refreshDiceToUse();
-	}
-
-	public static void refreshDiceToUse() {
-		diceToUse.clear();
-		for (int i = 0;i<1||(i<2&&dice[0].getValue()==dice[1].getValue());i++) {
-			for (int j = 0;j<2;j++) diceToUse.add(new UseableDie(dice[j].getValue()));
-		}
-	}
-
-	public static void rollDice() {
-		for (int i = 0;i<dice.length;i++) dice[i].roll();
-	}
-
-	public static void cycleTurn() {
-		turn = (turn!=A)?A:B;
-	}
-
-	public static RollableDie[] getDice() {
-		return dice;
-	}
-
+	private static Stack<Board> boardHistory;
+	
 	public static Board board() {
-		return board;
+		return boardHistory.peek();
+	}
+	
+	public static void init() {
+		boardHistory = new Stack<>();
+		boardHistory.push(new Board(LAYOUT));
+		board().setTurn(A);
+		board().setDice(new RollableDie[2]);
+		for (int i = 0;i<board().getDice().length;i++) board().getDice()[i] = new RollableDie(6);
+		board().setDiceToUse(new ArrayList<>());
+		board().rollDice();
+		board().refreshDiceToUse();
+		save();
+	}
+	
+	public static void save() {
+		System.out.print("saved");
+		boardHistory.push(board().copy());
+	}
+	
+	public static void load() {
+		System.out.print("loaded");
+		boardHistory.pop();
 	}
 
-	public static int getTurn() {
-		return turn;
-	}
-
-	public static List<UseableDie> getDiceToUse() {
-		return diceToUse;
-	}
-
-	public static List<UseableDie> getUseableDice() {
-		List<UseableDie> array = new ArrayList<>();
-		for (UseableDie die:diceToUse) if (!die.isBeingUsed()) array.add(die);
-		return array;
-	}
-
-	public static List<Integer> getUseableDiceValues() {
-		List<Integer> array = new ArrayList<>();
-		for (UseableDie die:diceToUse) if (!die.isBeingUsed()) array.add(die.getValue());
-		return array;
-	}
 }

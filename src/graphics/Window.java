@@ -72,4 +72,12 @@ public class Window extends JFrame implements GraphicsData {
 	public static int centerY() {
 		return frame.getHeight()/2;
 	}
+	
+	public static int getOriginX() {
+		return ORIGIN_X;
+	}
+	
+	public static int getOriginY() {
+		return ORIGIN_Y;
+	}
 }

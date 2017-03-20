@@ -21,11 +21,11 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 		try {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_R:
-				Game.rollDice();
-				Game.refreshDiceToUse();
+				Game.board().rollDice();
+				Game.board().refreshDiceToUse();
 				break;
 			case KeyEvent.VK_T:
-				Game.cycleTurn();
+				Game.board().cycleTurn();
 				break;
 			case KeyEvent.VK_1:
 				Game.board().capture(0);

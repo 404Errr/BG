@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -15,7 +16,6 @@ import game.Game;
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, GameData, GraphicsData {
 	private static Graphics2D g;
-	int MARGIN = GraphicsData.MARGIN, CHECKER_SIZE = GraphicsData.CHECKER_SIZE;
 
 	@Override
 	public void paintComponent(Graphics g0) {
@@ -43,9 +43,9 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 		}
 		g.setStroke(new BasicStroke(5));
 		for (int i = 0;i<Game.board().getPoints().length;i++) {//highlight
-			if (Game.board().getPoints()[i].getCheckers().size()>0&&Game.board().getPoints()[i].getCheckers().peek().getColor()!=EMPTY&&Game.board().getPoints()[i].isValid(Game.getTurn())) {
+			if (Game.board().getPoints()[i].getCheckers().size()>0&&Game.board().getPoints()[i].getCheckers().peek().getColor()!=EMPTY&&Game.board().getPoints()[i].isValid(Game.board().getTurn())) {
 				g.setColor(COLOR_HIGHLIGHT);
-				g.drawRect(i*CHECKER_SIZE+MARGIN, MARGIN+(Game.board().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+				g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
 			}
 		}
 		g.setStroke(new BasicStroke(1));
@@ -58,8 +58,8 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 	}
 
 	private void drawDice() {
-		for (int i = 0;i<Game.getDiceToUse().size();i++) {
-			drawDie(MARGIN+Game.board().getPoints().length*CHECKER_SIZE+MARGIN, (int) (MARGIN+CHECKER_SIZE*2.5*i), CHECKER_SIZE*2, Game.getDiceToUse().get(i).getValue(), Game.getDiceToUse().get(i).isBeingUsed());
+		for (int i = 0;i<Game.board().getDiceToUse().size();i++) {
+			drawDie(MARGIN+Game.board().getPoints().length*CHECKER_SIZE+MARGIN, (int) (MARGIN+CHECKER_SIZE*2.5*i), CHECKER_SIZE*2, Game.board().getDiceToUse().get(i).getValue(), Game.board().getDiceToUse().get(i).isBeingUsed());
 		}
 	}
 

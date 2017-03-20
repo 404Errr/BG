@@ -4,10 +4,11 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
+import data.GraphicsData;
 import data.InputData;
 import graphics.Window;
 
-public class Cursor implements InputData {
+public class Cursor implements InputData, GraphicsData {
 	private static int screenX, screenY;//the coords of the cursor based on the top left corner of the screen
 
 	public static void updateMouse(MouseEvent e) {

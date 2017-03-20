@@ -4,7 +4,7 @@ public class UseableDie {
 	private int value;
 	private boolean beingUsed;
 
-	UseableDie(int value) {
+	public UseableDie(int value) {
 		this.value = value;
 	}
 

@@ -13,6 +13,4 @@ public interface GameData {
 	int UPS = 60;
 
 	int[][] LAYOUT = Layout.LAYOUT_0;
-
-	int MARGIN = 100, CHECKER_SIZE = 50;
 }
