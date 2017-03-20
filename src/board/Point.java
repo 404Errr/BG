@@ -21,6 +21,11 @@ public class Point implements GameData {
 		}
 	}
 
+	public boolean canMoveTo() {
+		if (isEmpty()) return true;
+		return size()<=1;
+	}
+
 	public boolean canMoveTo(Point from) {
 		if (from.isEmpty()) return false;
 		if (isEmpty()) return true;
@@ -51,7 +56,7 @@ public class Point implements GameData {
 	}
 
 	public void push(Checker checker) {
-		checkers.push(checker);
+		if (checker!=null) checkers.push(checker);
 	}
 
 	public int size() {

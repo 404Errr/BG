@@ -27,6 +27,14 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			case KeyEvent.VK_T:
 				Game.cycleTurn();
 				break;
+			case KeyEvent.VK_1:
+				Game.board().capture(0);
+				break;
+			case KeyEvent.VK_2:
+				Game.board().moveReleaseChecker(A, 21);
+				break;
+			case KeyEvent.VK_3:
+				break;
 			}
 		}
 		catch (Exception e1) {}
