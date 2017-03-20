@@ -26,6 +26,21 @@ public class Board implements GameData {
 		}
 	}
 
+	public boolean capture(int point) {
+		points[point].pop();
+		return false;
+	}
+
+	public boolean moveChecker(int from, int to) {
+		if (from==to||from<0||to<0||from>=points.length||to>=points.length) return false;
+		Point f = points[from], t = points[to];
+		if (GameData.isCorrectDir(to-from, f.peekColor())) return false;
+		if (!t.canMoveTo(f)) return false;
+		if (t.canBeCaptured()&&f.peekColor()!=t.peekColor()) t.capture();//capture
+		t.push(f.pop());
+		return true;
+	}
+
 	public Point[] getPoints() {
 		return points;
 	}

@@ -41,7 +41,7 @@ public class Game implements GameData {
 		return dice;
 	}
 
-	public static Board getBoard() {
+	public static Board board() {
 		return board;
 	}
 
@@ -53,5 +53,15 @@ public class Game implements GameData {
 		return diceToUse;
 	}
 
+	public static List<UseableDie> getUseableDice() {
+		List<UseableDie> array = new ArrayList<>();
+		for (UseableDie die:diceToUse) if (!die.isBeingUsed()) array.add(die);
+		return array;
+	}
 
+	public static List<Integer> getUseableDiceValues() {
+		List<Integer> array = new ArrayList<>();
+		for (UseableDie die:diceToUse) if (!die.isBeingUsed()) array.add(die.getValue());
+		return array;
+	}
 }

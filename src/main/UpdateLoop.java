@@ -1,6 +1,9 @@
 package main;
 
+import java.util.Random;
+
 import data.GameData;
+import game.Game;
 import graphics.Window;
 
 public class UpdateLoop implements GameData {
@@ -26,7 +29,9 @@ public class UpdateLoop implements GameData {
 
 	private static void update() {
 		try {
-
+			Random rand = new Random();
+			int i = rand.nextInt(24), j = rand.nextInt(24);
+			Game.board().moveChecker(i, j);
 		}
 		catch (Exception e) {
 			System.err.println("-UPDATE ERROR");

@@ -34,22 +34,22 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 	}
 
 	private void drawBoard() {
-		for (int i = 0;i<Game.getBoard().getPoints().length;i++) {
-			for (int j = 0;i<Game.getBoard().getPoints()[i].getCheckers().size();j++) {
-				g.setColor(STONE_COLORS[Game.getBoard().getPoints()[i].getCheckers().get(j).getColor()]);
+		for (int i = 0;i<Game.board().getPoints().length;i++) {
+			for (int j = 0;j<Game.board().getPoints()[i].getCheckers().size();j++) {
+				g.setColor(STONE_COLORS[Game.board().getPoints()[i].getCheckers().get(j).getColor()]);
 				g.fillRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);//Game.getBoard().getPoints()[i].getStoneCount()*CHECKER_SIZE);
 			}
 		}
 		g.setStroke(new BasicStroke(5));
-		for (int i = 0;i<Game.getBoard().getPoints().length;i++) {//highlight
-			if (Game.getBoard().getPoints()[i].getCheckers().size()>0&&Game.getBoard().getPoints()[i].getCheckers().lastElement().getColor()!=EMPTY&&Game.getBoard().getPoints()[i].isValid(Game.getTurn())) {
+		for (int i = 0;i<Game.board().getPoints().length;i++) {//highlight
+			if (Game.board().getPoints()[i].getCheckers().size()>0&&Game.board().getPoints()[i].getCheckers().peek().getColor()!=EMPTY&&Game.board().getPoints()[i].isValid(Game.getTurn())) {
 				g.setColor(COLOR_HIGHLIGHT);
-				g.drawRect(i*CHECKER_SIZE+MARGIN, MARGIN+(Game.getBoard().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+				g.drawRect(i*CHECKER_SIZE+MARGIN, MARGIN+(Game.board().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
 			}
 		}
 		g.setStroke(new BasicStroke(1));
-		for (int i = 0;i<Game.getBoard().getPoints().length;i++) {//gird
-			for (int j = 0;j<1||j<Game.getBoard().getPoints()[i].getCheckers().size();j++) {
+		for (int i = 0;i<Game.board().getPoints().length;i++) {//gird
+			for (int j = 0;j<1||j<Game.board().getPoints()[i].getCheckers().size();j++) {
 				g.setColor(COLOR_GRID);
 				g.drawRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
 			}
@@ -58,7 +58,7 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 
 	private void drawDice() {
 		for (int i = 0;i<Game.getDiceToUse().size();i++) {
-			drawDie(MARGIN+Game.getBoard().getPoints().length*CHECKER_SIZE+MARGIN, (int) (MARGIN+CHECKER_SIZE*2.5*i), CHECKER_SIZE*2, Game.getDiceToUse().get(i).getValue(), Game.getDiceToUse().get(i).isBeingUsed());
+			drawDie(MARGIN+Game.board().getPoints().length*CHECKER_SIZE+MARGIN, (int) (MARGIN+CHECKER_SIZE*2.5*i), CHECKER_SIZE*2, Game.getDiceToUse().get(i).getValue(), Game.getDiceToUse().get(i).isBeingUsed());
 		}
 	}
 
@@ -70,13 +70,12 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 		g.setColor(COLOR_DIE_OUTLINE);
 		g.setStroke(new BasicStroke(1));
 		g.drawRect(x, y, size, size);
-		boolean[] dots = {v>2, false, v>0, v==5, v%2==0, v==5,v>0, false, v>2};
-//		boolean[] dots = {v%2==0, v==5, v>0, false, v>2};
+		boolean[] dots = {v>2, false, v>0, v==5, v%2==0, v==5, v>0, false, v>2};
 		g.setColor(COLOR_DIE_DOTS);
 		for (int i = 0;i<3;i++) {
 			for (int j = 0;j<3;j++) {
-				if (dots[j*3+i]) g.fillOval((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
-//				if (dots[Math.abs((j*3+i)-4)]) g.fillOval((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
+				if (dots[j*3+i]) g.fillRect((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
+//				if (dots[j*3+i]) g.fillOval((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
 			}
 		}
 		g.drawString((v+1)+" ("+v+")", x-30, y+20);
