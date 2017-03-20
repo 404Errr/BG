@@ -8,11 +8,12 @@ import data.GameData;
 
 public class Game implements GameData {
 	private static Stack<Board> boardHistory;
-	
+
 	public static Board board() {
-		return boardHistory.peek();
+		if (!boardHistory.isEmpty()) return boardHistory.peek();
+		return null;
 	}
-	
+
 	public static void init() {
 		boardHistory = new Stack<>();
 		boardHistory.push(new Board(LAYOUT));
@@ -21,17 +22,15 @@ public class Game implements GameData {
 		for (int i = 0;i<board().getDice().length;i++) board().getDice()[i] = new RollableDie(6);
 		board().setDiceToUse(new ArrayList<>());
 		board().rollDice();
-		board().refreshDiceToUse();
-		save();
 	}
-	
+
 	public static void save() {
-		System.out.print("saved");
+		System.out.println("saved");
 		boardHistory.push(board().copy());
 	}
-	
+
 	public static void load() {
-		System.out.print("loaded");
+		System.out.println("loaded");
 		boardHistory.pop();
 	}
 

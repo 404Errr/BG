@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -23,6 +22,7 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 		setBackground(COLOR_BACKGROUND);
 		super.paintComponent(g);
 		try {
+			if (Game.board()==null) return;
 			drawBoard();
 			drawDice();
 			drawDebug();
@@ -36,8 +36,10 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 	private void drawBoard() {
 		for (int i = 0;i<Game.board().getPoints().length;i++) {
 			for (int j = 0;j<Game.board().getPoints()[i].getCheckers().size();j++) {
-				g.setColor(STONE_COLORS[Game.board().getPoints()[i].getCheckers().get(j).getColor()]);
-				if (Game.board().getPoints()[i].getCheckers().get(j).isHovered()) g.setColor(g.getColor().brighter());
+				g.setColor(CHECKER_COLORS[Game.board().getPoints()[i].peekColor()]);
+				if (Game.board().getPoints()[i].getCheckers().get(j).isHovered()) {
+					g.setColor(CHECKER_COLORS_H[Game.board().getPoints()[i].peekColor()]);
+				}
 				g.fillRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);//Game.getBoard().getPoints()[i].getStoneCount()*CHECKER_SIZE);
 			}
 		}

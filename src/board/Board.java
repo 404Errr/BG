@@ -10,36 +10,41 @@ import game.UseableDie;
 
 public class Board implements GameData {
 	private final Point[] points;
-	private final List<Checker> captured;
+	private final List<Checker> captured, checkers;
 	private int turn;
 	private RollableDie[] dice;
 	private List<UseableDie> diceToUse;
 
-
 	public Board(int[][] layout) {
 		captured = new ArrayList<>();
+		checkers = new ArrayList<>();
 		List<Point> pointList = new ArrayList<>();
-		int currentPoint = 0;
+		int currentPointNum = 0;
 		for (int i = 0;i<layout.length;i++) {
-			if (layout[i].length==2) {
-				pointList.add(new Point(i, layout[i][0], layout[i][1]));
-				currentPoint++;
+			if (layout[i].length==1) {//empty
+				for (int j = 0;j<layout[i][0];j++) {
+					pointList.add(new Point(currentPointNum+j));
+				}
+				currentPointNum+=layout[i][0];
 			}
 			else {
-				for (int j = 0;j<layout[i][0];j++) {
-					pointList.add(new Point(currentPoint+j));
-					currentPoint+=layout[i][0];
-				}
+				pointList.add(new Point(currentPointNum, layout[i][1], layout[i][0]));
+				currentPointNum++;
 			}
 		}
 		points = new Point[pointList.size()];
 		for (int i = 0;i<pointList.size();i++) {
 			points[i] = pointList.get(i);
+			points[i].init(this);
 		}
 	}
 
 	public Checker release(int color) {
-		for (int i = 0;i<captured.size();i++) if (captured.get(i).getColor()==color) return captured.remove(i);
+		for (int i = 0;i<captured.size();i++) {
+			if (captured.get(i).getColor()==color) {//found
+				return captured.remove(i);
+			}
+		}
 		return null;
 	}
 
@@ -49,22 +54,45 @@ public class Board implements GameData {
 	}
 
 	public boolean moveReleaseChecker(int color, int to) {
-		if (to<0||to>=points.length||to>=6&&to<points.length-6) return false;
+		if (to<0||to>=points.length||to>=6&&to<points.length-6) {
+			return false;
+		}
 		Point t = points[to];
-		if (!t.canMoveTo()) return false;
-		if (t.canBeCaptured()&&color!=t.peekColor()) t.capture();//capture
+		if (!canMoveTo(t)) {
+			return false;
+		}
+		if (t.canBeCaptured()&&color!=t.peekColor()) {
+			t.capture();//capture
+		}
 		t.push(release(color));
 		return true;
 	}
 
 	public boolean moveChecker(int from, int to) {
-		if (from==to||from!=-1&&from<0||to<0||from>=points.length||to>=points.length) return false;
+		if (from==to||from<0||to<0||from>=points.length||to>=points.length) {
+			return false;
+		}
 		Point f = points[from], t = points[to];
-		if (!t.canMoveTo(f)) return false;
-		if (GameData.isCorrectDir(to-from, f.peekColor())) return false;
-		if (t.canBeCaptured()&&f.peekColor()!=t.peekColor()) t.capture();//capture
+		if (!canMoveToFrom(f, t)||GameData.isCorrectDir(to-from, f.peekColor())) {
+			return false;
+		}
+		if (t.canBeCaptured()&&f.peekColor()!=t.peekColor()) {
+			t.capture();//capture
+		}
 		t.push(f.pop());
 		return true;
+	}
+
+	public boolean canMoveTo(Point to) {
+		return to.size()<=1;
+	}
+
+	public boolean canMoveToFrom(Point to, Point from) {
+		return !from.isEmpty()&&(to.peekColor()==from.peekColor()||to.size()<=1);
+	}
+
+	public void addChecker(Checker checker) {
+		checkers.add(checker);
 	}
 
 	public Point[] getPoints() {
@@ -81,6 +109,7 @@ public class Board implements GameData {
 	public void rollDice() {
 		Game.save();
 		for (int i = 0;i<dice.length;i++) dice[i].roll();
+		refreshDiceToUse();
 	}
 
 	public void cycleTurn() {
@@ -90,7 +119,7 @@ public class Board implements GameData {
 	public RollableDie[] getDice() {
 		return dice;
 	}
-	
+
 	public int getTurn() {
 		return turn;
 	}
@@ -122,16 +151,17 @@ public class Board implements GameData {
 	public void setDiceToUse(List<UseableDie> diceToUse) {
 		this.diceToUse = diceToUse;
 	}
-	
-	private Board(Point[] points, List<Checker> captured, int turn, RollableDie[] dice, List<UseableDie> diceToUse) {
+
+	private Board(Point[] points, List<Checker> captured, List<Checker> checkers, int turn, RollableDie[] dice, List<UseableDie> diceToUse) {
 		this.points = points;
 		this.captured = captured;
+		this.checkers = checkers;
 		this.turn = turn;
 		this.dice = dice;
 		this.diceToUse = diceToUse;
 	}
 
 	public Board copy() {
-		return new Board(points, captured, turn, dice, diceToUse);
+		return new Board(points, captured, checkers, turn, dice, diceToUse);
 	}
 }

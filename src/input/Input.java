@@ -22,7 +22,6 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_R:
 				Game.board().rollDice();
-				Game.board().refreshDiceToUse();
 				break;
 			case KeyEvent.VK_T:
 				Game.board().cycleTurn();

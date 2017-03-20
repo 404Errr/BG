@@ -14,6 +14,7 @@ public class Point implements GameData {
 	}
 
 	public Point(int pointNum, int color, int checkerCount) {
+		System.out.println(pointNum);
 		this.pointNum = pointNum;
 		checkers = new Stack<>();
 		for (int i = 0;i<checkerCount;i++) {
@@ -26,17 +27,13 @@ public class Point implements GameData {
 			checkers.get(i).setPoint(this);
 			checkers.get(i).tick();
 		}
+		System.out.println(pointNum+"\t"+selected);
 	}
 
-	public boolean canMoveTo() {
-		if (isEmpty()) return true;
-		return size()<=1;
-	}
-
-	public boolean canMoveTo(Point from) {
-		if (from.isEmpty()) return false;
-		if (isEmpty()) return true;
-		return peekColor()==from.peekColor()||size()<=1;
+	public void init(Board board) {
+		for (int i = 0;i<checkers.size();i++) {
+			board.addChecker(checkers.get(i));
+		}
 	}
 
 	public Stack<Checker> getCheckers() {

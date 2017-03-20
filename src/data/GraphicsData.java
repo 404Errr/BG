@@ -13,5 +13,5 @@ public interface GraphicsData {
 
 	int MARGIN = 100;
 	int CHECKER_SIZE = 50;
-	int ORIGIN_X = MARGIN*2, ORIGIN_Y = MARGIN*2;
+	int ORIGIN_X = MARGIN, ORIGIN_Y = MARGIN;
 }

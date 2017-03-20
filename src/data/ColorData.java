@@ -12,14 +12,16 @@ public interface ColorData {
 
 	Color COLOR_GRID = Util.colorOpacity(new Color(0x000000), 0.8f);
 
-	Color COLOR_HIGHLIGHT = new Color(0x00ff00);
+	Color COLOR_HIGHLIGHT = new Color(0x02fc02);
 
 	Color COLOR_DIE_BACKROUND = new Color(0xffffff);
 	Color COLOR_DIE_OUTLINE = new Color(0x000000);
 	Color COLOR_DIE_DOTS = new Color(0x000000);
 
 	Color COLOR_A = new Color(0xa0a0a0);
-//	Color COLOR_A = new Color(0xffffff);
+	Color COLOR_A_H = new Color(0xd0d0d0);
 	Color COLOR_B = new Color(0x0000ff);
-	Color[] STONE_COLORS = {COLOR_A, COLOR_B};
+	Color COLOR_B_H = new Color(0x5050ff);
+	Color[] CHECKER_COLORS = {COLOR_A, COLOR_B};
+	Color[] CHECKER_COLORS_H = {COLOR_A_H, COLOR_B_H};
 }

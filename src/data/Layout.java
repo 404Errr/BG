@@ -3,19 +3,19 @@ package data;
 public interface Layout extends GameData {
 
 	int[][] LAYOUT_0 = {
-			{A, 2},
+			{2, A},
 			{4},
-			{B, 5},
+			{5, B},
 			{1},
-			{B, 3},
+			{3, B},
 			{3},
-			{A, 5},
-			{B, 5},
+			{5, A},
+			{5, B},
 			{3},
-			{A, 3},
+			{3, A},
 			{1},
-			{A, 5},
+			{5, A},
 			{4},
-			{B, 2}
+			{2, B}
 	};
 }
