@@ -1,7 +1,5 @@
 package data;
 
-import board.Layout;
-
 public interface GameData {
 	int EMPTY = -1, A = 0, B = 1;
 	int A_DIR = 1, B_DIR = -1;

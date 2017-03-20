@@ -21,6 +21,13 @@ public class Point implements GameData {
 		}
 	}
 
+	public void tick() {
+		for (int i = 0;i<checkers.size();i++) {
+			checkers.get(i).setPoint(this);
+			checkers.get(i).tick();
+		}
+	}
+
 	public boolean canMoveTo() {
 		if (isEmpty()) return true;
 		return size()<=1;

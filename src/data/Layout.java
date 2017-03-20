@@ -1,14 +1,6 @@
-package board;
-
-import data.GameData;
+package data;
 
 public interface Layout extends GameData {
-
-	static int[][] generateLayout(int[][] layout) {
-//		int[][]
-
-		return new int[24][];
-	}
 
 	int[][] LAYOUT_0 = {
 			{A, 2},

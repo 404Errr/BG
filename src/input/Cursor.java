@@ -4,9 +4,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
+import data.InputData;
 import graphics.Window;
 
-public class Cursor {
+public class Cursor implements InputData {
 	private static int screenX, screenY;//the coords of the cursor based on the top left corner of the screen
 
 	public static void updateMouse(MouseEvent e) {
@@ -21,5 +22,13 @@ public class Cursor {
 
 	public static int getScreenY() {
 		return screenY;
+	}
+
+	public static int getBoardX() {//relative to board 0, 0
+		return screenX+ORIGIN_X;
+	}
+
+	public static int getBoardY() {
+		return screenY+ORIGIN_Y;
 	}
 }
