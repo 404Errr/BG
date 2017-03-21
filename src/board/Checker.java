@@ -25,10 +25,6 @@ public class Checker implements GraphicsData {
 		return new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*point.getPointNum(), Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this), CHECKER_SIZE, CHECKER_SIZE);
 	}
 
-	public void click() {
-		point.setSelected(true);
-	}
-
 	public boolean isHovered() {
 		return hovered;
 	}

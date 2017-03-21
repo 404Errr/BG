@@ -30,9 +30,7 @@ public class UpdateLoop implements GameData {
 //			Random rand = new Random();
 //			int i = rand.nextInt(24), j = rand.nextInt(24);
 //			Game.board().moveChecker(i, j);
-			for (int i = 0;i<Game.board().getPoints().length;i++) {
-				Game.board().getPoints()[i].tick();
-			}
+			Game.board().tick();
 		}
 		catch (Exception e) {
 			System.err.println("-UPDATE ERROR");

@@ -65,17 +65,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	}
 
 	public static void click(MouseEvent e, boolean down) {
-		switch (e.getButton()) {
-		case MouseEvent.BUTTON1://left
-
-			break;
-		case MouseEvent.BUTTON2://middle
-
-			break;
-		case MouseEvent.BUTTON3://right
-
-			break;
-		}
+		if (down) Cursor.click(e, down);
 	}
 
 	@Override

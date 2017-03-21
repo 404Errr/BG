@@ -40,14 +40,24 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 				if (Game.board().getPoints()[i].getCheckers().get(j).isHovered()) {
 					g.setColor(CHECKER_COLORS_H[Game.board().getPoints()[i].peekColor()]);
 				}
-				g.fillRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);//Game.getBoard().getPoints()[i].getStoneCount()*CHECKER_SIZE);
+				g.fillRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
 			}
 		}
 		g.setStroke(new BasicStroke(5));
+		g.setColor(COLOR_HIGHLIGHT);
 		for (int i = 0;i<Game.board().getPoints().length;i++) {//highlight
-			if (Game.board().getPoints()[i].getCheckers().size()>0&&Game.board().getPoints()[i].getCheckers().peek().getColor()!=EMPTY&&Game.board().getPoints()[i].isValid(Game.board().getTurn())) {
-				g.setColor(COLOR_HIGHLIGHT);
-				g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+			if (!Game.board().getPoints()[i].getCheckers().isEmpty()&&Game.board().getPoints()[i].getCheckers().peek().getColor()!=EMPTY) {
+				if ((Game.board().getPoints()[i].isValid()&&!Game.board().anyAreSelected())||Game.board().getPoints()[i].isSelected()) {
+					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+				}
+				if (Game.board().anyAreSelected()&&Game.board().getPoints()[i].isValid()&&!Game.board().getPoints()[i].isSelected()) {
+					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size())*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+				}
+			}
+			else {
+				if (Game.board().anyAreSelected()&&Game.board().canMoveTo(Game.board().getPoints()[i])) {
+					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size())*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+				}
 			}
 		}
 		g.setStroke(new BasicStroke(1));

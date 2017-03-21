@@ -39,6 +39,25 @@ public class Board implements GameData {
 		}
 	}
 
+	public void tick() {
+		for (int i = 0;i<points.length;i++) {
+			points[i].tick();
+		}
+	}
+
+	public void deselectAll() {
+		for (int i = 0;i<points.length;i++) {
+			points[i].setSelected(false);
+		}
+	}
+
+	public boolean anyAreSelected() {
+		for (int i = 0;i<points.length;i++) {
+			if (points[i].isSelected()) return true;
+		}
+		return false;
+	}
+
 	public Checker release(int color) {
 		for (int i = 0;i<captured.size();i++) {
 			if (captured.get(i).getColor()==color) {//found
@@ -81,6 +100,11 @@ public class Board implements GameData {
 		}
 		t.push(f.pop());
 		return true;
+	}
+
+	public boolean canMove(Point point) {
+//		for (int i = 0;i<)
+		return false;
 	}
 
 	public boolean canMoveTo(Point to) {

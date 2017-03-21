@@ -1,10 +1,14 @@
 package board;
 
+import java.awt.geom.Rectangle2D;
 import java.util.Stack;
 
 import data.GameData;
+import data.GraphicsData;
+import game.Game;
+import graphics.Window;
 
-public class Point implements GameData {
+public class Point implements GameData, GraphicsData {
 	private final int pointNum;
 	private Stack<Checker> checkers;
 	private boolean selected, valid;
@@ -79,9 +83,26 @@ public class Point implements GameData {
 		return pointNum;
 	}
 
-	public boolean isValid(int color) {
+	public void click() {
+		if (isSelected()) {
+			setSelected(false);
+			return;
+		}
+		if (isValid()) {
+			Game.board().deselectAll();
+			setSelected(true);
+		}
+	}
+
+	public Rectangle2D getBounds() {//FIXME
+//		System.out.println(Window.getOriginX()+"\t"+Window.getOriginY());
+//		System.out.println(Window.getOriginX()+CHECKER_SIZE*point.getPointNum()+"\t"+Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this));
+		return new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*getPointNum(), Window.getOriginY(), CHECKER_SIZE, (checkers.size()+((Game.board().anyAreSelected()&&!selected)?1:0))*CHECKER_SIZE);
+	}
+
+	public boolean isValid() {
 		boolean valid = true;
-		if (checkers.peek().getColor()!=color) valid = false;
+		if (checkers.peek().getColor()!=Game.board().getTurn()) valid = false;
 
 //		for (int i = 0;i<Game.getDiceToUse().size();i++) {
 //			int value = Game.getDiceToUse().get(i).getValue();
@@ -94,9 +115,9 @@ public class Point implements GameData {
 		return valid;
 	}
 
-	public boolean isValid() {
-		return valid;
-	}
+//	public boolean isValid() {
+//		return valid;
+//	}
 
 	public boolean isSelected() {
 		return selected;
