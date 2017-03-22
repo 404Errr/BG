@@ -1,12 +1,14 @@
 package graphics;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import board.Point;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;
@@ -34,39 +36,80 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 	}
 
 	private void drawBoard() {
+		drawBars();
+		drawHighlights();
+		drawGrid();
+	}
+
+	private void drawHighlights() {
+		g.setStroke(new BasicStroke(5));
+		g.setColor(COLOR_HIGHLIGHT);
+		for (int i = 0;i<Game.board().getPoints().length;i++) {
+			Point point = Game.board().getPoints()[i];
+			int height = point.height();
+			if (Game.board().anyAreSelected()) {
+				if (point.isSelected()) {
+					drawChecker(i, height-1, false, "1");
+				}
+				else if (point.checkValid()) {
+					drawChecker(i, height, false, "2");
+				}
+			}
+			else {
+
+			}
+//			if (!point.isEmpty()&&point.peekColor()!=EMPTY) {
+//				if ((point.checkValid()&&!Game.board().anyAreSelected())||point.isSelected()) {
+//					drawChecker(i, height-1, false);
+////					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(height-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+//				}
+//				if (Game.board().anyAreSelected()&&point.checkValid()&&!point.isSelected()) {
+//					drawChecker(i, height, false);
+////					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size())*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+//				}
+//			}
+//			else {
+//				if (Game.board().anyAreSelected()&&Game.board().anyCanMoveTo(point)) {
+//					drawChecker(i, height, false);
+////					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size())*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
+//				}
+//			}
+		}
+	}
+
+	private void drawGrid() {
+		g.setStroke(new BasicStroke(1));
+		for (int i = 0;i<Game.board().getPoints().length;i++) {//gird
+			for (int j = 0;j<1||j<Game.board().getPoints()[i].getCheckers().size();j++) {
+				g.setColor(COLOR_GRID);
+				drawChecker(i, j, false);
+			}
+		}
+	}
+
+	private void drawBars() {
 		for (int i = 0;i<Game.board().getPoints().length;i++) {
 			for (int j = 0;j<Game.board().getPoints()[i].getCheckers().size();j++) {
 				g.setColor(CHECKER_COLORS[Game.board().getPoints()[i].peekColor()]);
 				if (Game.board().getPoints()[i].getCheckers().get(j).isHovered()) {
 					g.setColor(CHECKER_COLORS_H[Game.board().getPoints()[i].peekColor()]);
 				}
-				g.fillRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
+				drawChecker(i, j, true);
 			}
 		}
-		g.setStroke(new BasicStroke(5));
+	}
+
+	private void drawChecker(int point, int height, boolean fill) {
+		if (fill) g.fillRect(point*CHECKER_SIZE+MARGIN, height*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
+		g.drawRect(point*CHECKER_SIZE+MARGIN, height*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
+	}
+
+	private void drawChecker(int point, int height, boolean fill, String str) {
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Helvetica", Font.PLAIN, 15));
+		g.drawString(str, point*CHECKER_SIZE+MARGIN+CHECKER_SIZE/2, -CHECKER_SIZE+MARGIN);
 		g.setColor(COLOR_HIGHLIGHT);
-		for (int i = 0;i<Game.board().getPoints().length;i++) {//highlight
-			if (!Game.board().getPoints()[i].getCheckers().isEmpty()&&Game.board().getPoints()[i].getCheckers().peek().getColor()!=EMPTY) {
-				if ((Game.board().getPoints()[i].isValid()&&!Game.board().anyAreSelected())||Game.board().getPoints()[i].isSelected()) {
-					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size()-1)*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
-				}
-				if (Game.board().anyAreSelected()&&Game.board().getPoints()[i].isValid()&&!Game.board().getPoints()[i].isSelected()) {
-					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size())*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
-				}
-			}
-			else {
-				if (Game.board().anyAreSelected()&&Game.board().canMoveTo(Game.board().getPoints()[i])) {
-					g.drawRect(MARGIN+i*CHECKER_SIZE, MARGIN+(Game.board().getPoints()[i].getCheckers().size())*CHECKER_SIZE, CHECKER_SIZE, CHECKER_SIZE);
-				}
-			}
-		}
-		g.setStroke(new BasicStroke(1));
-		for (int i = 0;i<Game.board().getPoints().length;i++) {//gird
-			for (int j = 0;j<1||j<Game.board().getPoints()[i].getCheckers().size();j++) {
-				g.setColor(COLOR_GRID);
-				g.drawRect(i*CHECKER_SIZE+MARGIN, j*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
-			}
-		}
+		drawChecker(point, height, fill);
 	}
 
 	private void drawDice() {

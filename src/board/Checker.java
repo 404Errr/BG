@@ -16,13 +16,7 @@ public class Checker implements GraphicsData {
 	}
 
 	public void tick() {
-		hovered = getBounds().contains(Cursor.getScreenX(), Cursor.getScreenY());
-	}
-
-	public Rectangle2D getBounds() {//FIXME
-//		System.out.println(Window.getOriginX()+"\t"+Window.getOriginY());
-//		System.out.println(Window.getOriginX()+CHECKER_SIZE*point.getPointNum()+"\t"+Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this));
-		return new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*point.getPointNum(), Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this), CHECKER_SIZE, CHECKER_SIZE);
+		hovered = new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*point.getPointNum(), Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this), CHECKER_SIZE, CHECKER_SIZE).contains(Cursor.getScreenX(), Cursor.getScreenY());
 	}
 
 	public boolean isHovered() {

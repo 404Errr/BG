@@ -45,75 +45,86 @@ public class Board implements GameData {
 		}
 	}
 
-	public void deselectAll() {
-		for (int i = 0;i<points.length;i++) {
-			points[i].setSelected(false);
-		}
-	}
-
-	public boolean anyAreSelected() {
-		for (int i = 0;i<points.length;i++) {
-			if (points[i].isSelected()) return true;
-		}
-		return false;
-	}
-
-	public Checker release(int color) {
-		for (int i = 0;i<captured.size();i++) {
-			if (captured.get(i).getColor()==color) {//found
-				return captured.remove(i);
-			}
-		}
-		return null;
-	}
-
-	public boolean capture(int point) {
-		captured.add(points[point].pop());
-		return false;
-	}
-
-	public boolean moveReleaseChecker(int color, int to) {
-		if (to<0||to>=points.length||to>=6&&to<points.length-6) {
-			return false;
-		}
-		Point t = points[to];
-		if (!canMoveTo(t)) {
-			return false;
-		}
-		if (t.canBeCaptured()&&color!=t.peekColor()) {
-			t.capture();//capture
-		}
-		t.push(release(color));
-		return true;
-	}
-
-	public boolean moveChecker(int from, int to) {
-		if (from==to||from<0||to<0||from>=points.length||to>=points.length) {
-			return false;
-		}
-		Point f = points[from], t = points[to];
-		if (!canMoveToFrom(f, t)||GameData.isCorrectDir(to-from, f.peekColor())) {
-			return false;
-		}
-		if (t.canBeCaptured()&&f.peekColor()!=t.peekColor()) {
-			t.capture();//capture
-		}
-		t.push(f.pop());
-		return true;
-	}
-
-	public boolean canMove(Point point) {
-//		for (int i = 0;i<)
-		return false;
-	}
-
-	public boolean canMoveTo(Point to) {
-		return to.size()<=1;
-	}
-
-	public boolean canMoveToFrom(Point to, Point from) {
-		return !from.isEmpty()&&(to.peekColor()==from.peekColor()||to.size()<=1);
-	}
+//	public void deselectAll() {
+//		for (int i = 0;i<points.length;i++) {
+//			points[i].setSelected(false);
+//		}
+//	}
+//
+//	public boolean anyAreSelected() {
+//		for (int i = 0;i<points.length;i++) {
+//			if (points[i].isSelected()) return true;
+//		}
+//		return false;
+//	}
+//
+//	public Checker release(int color) {
+//		for (int i = 0;i<captured.size();i++) {
+//			if (captured.get(i).getColor()==color) {//found
+//				return captured.remove(i);
+//			}
+//		}
+//		return null;
+//	}
+//
+//	public boolean capture(int point) {
+//		captured.add(points[point].pop());
+//		return false;
+//	}
+//
+//	public boolean moveReleaseChecker(int color, int to) {
+//		if (!isValidMove(from, to)||to>=6&&to<points.length-6) {
+//			return false;
+//		}
+//		Point t = points[to];
+//		if (!anyCanMoveTo(t)) {
+//			return false;
+//		}
+//		if (t.canBeCaptured()&&color!=t.peekColor()) {
+//			t.capture();//capture
+//		}
+//		t.push(release(color));
+//		return true;
+//	}
+//
+//	public boolean moveChecker(int from, int to) {
+//		if (!isValidMove(from, to)) {
+//			return false;
+//		}
+//		Point f = points[from], t = points[to];
+//		if (t.canBeCaptured()&&f.peekColor()!=t.peekColor()) {
+//			t.capture();//capture
+//		}
+//		t.push(f.pop());
+//		return true;
+//	}
+//
+//	public boolean isValidMove(int from, int to) {
+//		if (from==to||from<0||to<0||from>=points.length||to>=points.length) {
+//			return false;
+//		}
+//		Point f = points[from], t = points[to];
+//		if (!canMoveToFrom(f, t)||!GameData.isCorrectDir(from-to, f.peekColor())) {
+//			return false;
+//		}
+//		for (int i = 0;i<diceToUse.size();i++) {
+//			int value = diceToUse.get(i).getValue();
+//
+//		}
+//		return true;
+//	}
+//
+//	public boolean anyCanMoveTo(Point to) {
+//		return to.height()<=1;
+//	}
+//
+//	public boolean canMoveTo(Point to, int color) {
+//		return color==to.peekColor()||to.height()<=1;
+//	}
+//
+//	public boolean canMoveToFrom(Point to, Point from) {
+//		return !from.isEmpty()&&(to.peekColor()==from.peekColor()||to.height()<=1);
+//	}
 
 	public void addChecker(Checker checker) {
 		checkers.add(checker);

@@ -24,8 +24,7 @@ public class Cursor implements InputData, GraphicsData {
 		switch (e.getButton()) {
 		case MouseEvent.BUTTON1://left
 			for (Point point:Game.board().getPoints()) {
-				if (point.isEmpty()) continue;
-				if (point.getBounds().contains(e.getX(), e.getY())) {
+				if (!point.isEmpty()&&point.getBounds().contains(e.getX(), e.getY())) {
 					point.click();
 				}
 			}

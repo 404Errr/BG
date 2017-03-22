@@ -67,7 +67,7 @@ public class Point implements GameData, GraphicsData {
 		if (checker!=null) checkers.push(checker);
 	}
 
-	public int size() {
+	public int height() {
 		return checkers.size();
 	}
 
@@ -88,21 +88,21 @@ public class Point implements GameData, GraphicsData {
 			setSelected(false);
 			return;
 		}
-		if (isValid()) {
+		if (checkValid()) {
 			Game.board().deselectAll();
 			setSelected(true);
 		}
 	}
 
-	public Rectangle2D getBounds() {//FIXME
-//		System.out.println(Window.getOriginX()+"\t"+Window.getOriginY());
-//		System.out.println(Window.getOriginX()+CHECKER_SIZE*point.getPointNum()+"\t"+Window.getOriginY()+CHECKER_SIZE*point.getCheckers().indexOf(this));
+	public Rectangle2D getBounds() {
 		return new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*getPointNum(), Window.getOriginY(), CHECKER_SIZE, (checkers.size()+((Game.board().anyAreSelected()&&!selected)?1:0))*CHECKER_SIZE);
 	}
 
-	public boolean isValid() {
+	public boolean checkValid() {
 		boolean valid = true;
-		if (checkers.peek().getColor()!=Game.board().getTurn()) valid = false;
+		if (checkers.size()>0&&checkers.peek().getColor()!=Game.board().getTurn()) {
+			valid = false;
+		}
 
 //		for (int i = 0;i<Game.getDiceToUse().size();i++) {
 //			int value = Game.getDiceToUse().get(i).getValue();
@@ -115,9 +115,9 @@ public class Point implements GameData, GraphicsData {
 		return valid;
 	}
 
-//	public boolean isValid() {
-//		return valid;
-//	}
+	public boolean isValid() {
+		return valid;
+	}
 
 	public boolean isSelected() {
 		return selected;
