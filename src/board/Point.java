@@ -5,7 +5,7 @@ import java.util.Stack;
 @SuppressWarnings("serial")
 public class Point<C> extends Stack<C> {
 	private final int index;
-	private Point<C> left, right;
+	private Point<C> neg, pos;
 
 	@SuppressWarnings("unchecked")
 	public Point(int index, int initialHeight, int checkerColor) {
@@ -29,21 +29,21 @@ public class Point<C> extends Stack<C> {
 		return index;
 	}
 
-	public Point<C> getLeft() {
-		return left;
+	public Point<C> getNeg() {
+		return neg;
 	}
 
-	public Point<C> getRight() {
-		return right;
+	public Point<C> getPos() {
+		return pos;
 	}
 
-	public void setNeighbors(Point<C> left, Point<C> right) {
-		this.left = left;
-		this.right = right;
+	public void setNeighbors(Point<C> neg, Point<C> pos) {
+		this.neg = neg;
+		this.pos = pos;
 	}
 
 	@Override
 	public String toString() {
-		return index+"\tL "+((left==null)?"null":left.getIndex())+"\tR "+((right==null)?"null":right.getIndex())+"\t"+size();
+		return index+"\tL "+((neg==null)?"null":neg.getIndex())+"\tR "+((pos==null)?"null":pos.getIndex())+"\t"+size();
 	}
 }

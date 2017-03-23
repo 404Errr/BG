@@ -47,10 +47,10 @@ public interface Layout extends GameData {
 				points.add(new Point<>(data[0], data[1], data[2]));
 			}
 			for (int i = 0;i<pointData.size();i++) {
-				Point<Checker> left = null, right = null;
-				if (i>0) left = points.get(i-1);
-				if (i<pointData.size()-1) right = points.get(i+1);
-				points.get(i).setNeighbors(left, right);
+				Point<Checker> negative = null, postitve = null;
+				if (i>0) negative = points.get(i-1);
+				if (i<pointData.size()-1) postitve = points.get(i+1);
+				points.get(i).setNeighbors(negative, postitve);
 			}
 			for (Point<Checker> p:points) System.out.println(p);
 			return points;
