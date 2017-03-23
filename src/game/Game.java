@@ -1,6 +1,5 @@
 package game;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import board.Board;
@@ -17,21 +16,16 @@ public class Game implements GameData {
 	public static void init() {
 		boardHistory = new Stack<>();
 		boardHistory.push(new Board(LAYOUT));
-		board().setTurn(A);
-		board().setDice(new RollableDie[2]);
-		for (int i = 0;i<board().getDice().length;i++) board().getDice()[i] = new RollableDie(6);
-		board().setDiceToUse(new ArrayList<>());
-		board().rollDice();
 	}
 
-	public static void save() {
-		System.out.println("saved");
-		boardHistory.push(board().copy());
-	}
-
-	public static void load() {
-		System.out.println("loaded");
-		boardHistory.pop();
-	}
+//	public static void save() {
+//		System.out.println("saved");
+//		boardHistory.push(board().copy());
+//	}
+//
+//	public static void load() {
+//		System.out.println("loaded");
+//		boardHistory.pop();
+//	}
 
 }

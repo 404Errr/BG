@@ -7,7 +7,7 @@ import graphics.Window;
 public class UpdateLoop implements GameData {
 
 	public static void run() {
-		System.out.println("UPS: "+UPS);
+//		System.out.println("UPS: "+UPS);//FIXME
 		final float updateSpeed = 1000000000/UPS;
 		float wait;
 		long startTime = 0;

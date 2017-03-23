@@ -13,7 +13,6 @@ import java.awt.event.WindowListener;
 import javax.swing.event.MouseInputListener;
 
 import data.GameData;
-import game.Game;
 
 public class Input implements KeyListener, MouseInputListener, MouseWheelListener, ComponentListener, WindowListener, GameData {
 	@Override
@@ -21,16 +20,16 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 		try {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_R:
-				Game.board().rollDice();
+//				Game.board().rollDice();
 				break;
 			case KeyEvent.VK_T:
-				Game.board().cycleTurn();
+//				Game.board().cycleTurn();
 				break;
 			case KeyEvent.VK_1:
-				Game.board().capture(0);
+//				Game.board().capture(0);
 				break;
 			case KeyEvent.VK_2:
-				Game.board().moveReleaseChecker(A, 21);
+//				Game.board().moveReleaseChecker(A, 21);
 				break;
 			case KeyEvent.VK_3:
 				break;

@@ -1,131 +1,49 @@
 package board;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Stack;
 
-import data.GameData;
-import data.GraphicsData;
-import game.Game;
-import graphics.Window;
+@SuppressWarnings("serial")
+public class Point<C> extends Stack<C> {
+	private final int index;
+	private Point<C> left, right;
 
-public class Point implements GameData, GraphicsData {
-	private final int pointNum;
-	private Stack<Checker> checkers;
-	private boolean selected, valid;
-
-	public Point(int slotNum) {
-		this(slotNum, EMPTY, 0);
-	}
-
-	public Point(int pointNum, int color, int checkerCount) {
-		System.out.println(pointNum);
-		this.pointNum = pointNum;
-		checkers = new Stack<>();
-		for (int i = 0;i<checkerCount;i++) {
-			checkers.push(new Checker(color));
+	@SuppressWarnings("unchecked")
+	public Point(int index, int initialHeight, int checkerColor) {
+		this.index = index;
+		for (int i = 0;i<initialHeight;i++) {
+			push((C) new Checker(checkerColor));
 		}
 	}
 
-	public void tick() {
-		for (int i = 0;i<checkers.size();i++) {
-			checkers.get(i).setPoint(this);
-			checkers.get(i).tick();
-		}
-		System.out.println(pointNum+"\t"+selected);
+
+
+
+
+
+
+	public int getColor() {//color of checker on the top
+		return ((Checker) peek()).getColor();
 	}
 
-	public void init(Board board) {
-		for (int i = 0;i<checkers.size();i++) {
-			board.addChecker(checkers.get(i));
-		}
+	public int getIndex() {
+		return index;
 	}
 
-	public Stack<Checker> getCheckers() {
-		return checkers;
+	public Point<C> getLeft() {
+		return left;
 	}
 
-	public int peekColor() {
-		if (checkers.isEmpty()) return EMPTY;
-		return checkers.peek().getColor();
+	public Point<C> getRight() {
+		return right;
 	}
 
-	public Checker peek() {
-		if (!checkers.isEmpty()) return checkers.peek();
-		return null;
+	public void setNeighbors(Point<C> left, Point<C> right) {
+		this.left = left;
+		this.right = right;
 	}
 
-	public Checker capture() {
-		return pop();
+	@Override
+	public String toString() {
+		return index+"\tL "+((left==null)?"null":left.getIndex())+"\tR "+((right==null)?"null":right.getIndex())+"\t"+size();
 	}
-
-	public Checker pop() {
-		if (!checkers.isEmpty()) return checkers.pop();
-		return null;
-	}
-
-	public void push(Checker checker) {
-		if (checker!=null) checkers.push(checker);
-	}
-
-	public int height() {
-		return checkers.size();
-	}
-
-	public boolean isEmpty() {
-		return checkers.isEmpty();
-	}
-
-	public boolean canBeCaptured() {
-		return checkers.size()==1;
-	}
-
-	public int getPointNum() {
-		return pointNum;
-	}
-
-	public void click() {
-		if (isSelected()) {
-			setSelected(false);
-			return;
-		}
-		if (checkValid()) {
-			Game.board().deselectAll();
-			setSelected(true);
-		}
-	}
-
-	public Rectangle2D getBounds() {
-		return new Rectangle2D.Float(Window.getOriginX()+CHECKER_SIZE*getPointNum(), Window.getOriginY(), CHECKER_SIZE, (checkers.size()+((Game.board().anyAreSelected()&&!selected)?1:0))*CHECKER_SIZE);
-	}
-
-	public boolean checkValid() {
-		boolean valid = true;
-		if (checkers.size()>0&&checkers.peek().getColor()!=Game.board().getTurn()) {
-			valid = false;
-		}
-
-//		for (int i = 0;i<Game.getDiceToUse().size();i++) {
-//			int value = Game.getDiceToUse().get(i).getValue();
-//
-//
-//
-//		}
-
-		this.valid = valid;
-		return valid;
-	}
-
-	public boolean isValid() {
-		return valid;
-	}
-
-	public boolean isSelected() {
-		return selected;
-	}
-
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
-
-
 }
