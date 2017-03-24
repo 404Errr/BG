@@ -25,13 +25,12 @@ public class Board implements GameData {
 		if (dir==Direction.NONE) return false;
 		if ((from.getColor()==A)!=(dir==A_DIR)) return false;
 		List<Integer> values = dice.getUseableValues();
-		boolean isLegal = false;
 		for (int i = 0;i<values.size();i++) {
 			if (values.get(i)+1==Math.abs(from.getIndex()-to.getIndex())) {//+1 to the dice value
-				isLegal = true;
+				return true;
 			}
 		}
-		return isLegal;
+		return false;
 	}
 
 	public void rollDice() {

@@ -9,6 +9,5 @@ public class BGMain implements GameData {
 		Game.init();
 		Window.init();
 		UpdateLoop.run();
-
 	}
 }
