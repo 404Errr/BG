@@ -4,9 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import board.UseableDie;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;
@@ -24,7 +26,7 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 		try {
 			if (Game.board()==null) return;
 			drawBoard();
-//			drawDice();
+			drawDice();
 			drawDebug();
 		}
 		catch (Exception e) {
@@ -98,49 +100,34 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 	}
 
 	private void drawGridRect(int p, int h, boolean fill) {
-		int xOffset = MARGIN, yOffset = MARGIN, vDir = 1;
-		if (p>=Game.board().size()/2) {
-			p = Game.board().size()-1-p;
-			yOffset = Window.height()-MARGIN-GRID_SIZE_Y;
-			vDir = -1;
-		}
-		if (p>=Game.board().size()/4&&p<Game.board().size()*3/4) xOffset+=BAR_WIDTH;
-		if (fill) g.fillRect(p*GRID_SIZE_X+xOffset, h*vDir*GRID_SIZE_Y+yOffset, GRID_SIZE_X, GRID_SIZE_Y);
-		g.drawRect(p*GRID_SIZE_X+xOffset, h*vDir*GRID_SIZE_Y+yOffset, GRID_SIZE_X, GRID_SIZE_Y);
+		if (fill) g.fill(Game.getGridBounds(p, h));
+		g.draw(Game.getGridBounds(p, h));
 	}
 
-//	private void drawChecker(int point, int height, boolean fill, String str) {
-//		g.setColor(Color.BLACK);
-//		g.setFont(new Font("Helvetica", Font.PLAIN, 15));
-//		g.drawString(str, point*CHECKER_SIZE+MARGIN+CHECKER_SIZE/2, -CHECKER_SIZE+MARGIN);
-//		g.setColor(COLOR_HIGHLIGHT);
-//		drawChecker(point, height, fill);
-//	}
-//
-////	private void drawDice() {
-////		for (int i = 0;i<Game.board().getDiceToUse().size();i++) {
-////			drawDie(MARGIN+Game.board().getPoints().length*CHECKER_SIZE+MARGIN, (int) (MARGIN+CHECKER_SIZE*2.5*i), CHECKER_SIZE*2, Game.board().getDiceToUse().get(i).getValue(), Game.board().getDiceToUse().get(i).isBeingUsed());
-////		}
-////	}
-//
-//	private void drawDie(int x, int y, int size, int v, boolean beingUsed) {
-//		final int dotSize = size/8;
-//		if (beingUsed) g.setColor(COLOR_DIE_BACKROUND.darker());
-//		else g.setColor(COLOR_DIE_BACKROUND);
-//		g.fillRect(x, y, size, size);
-//		g.setColor(COLOR_DIE_OUTLINE);
-//		g.setStroke(new BasicStroke(1));
-//		g.drawRect(x, y, size, size);
-//		boolean[] dots = {v>2, false, v>0, v==5, v%2==0, v==5, v>0, false, v>2};
-//		g.setColor(COLOR_DIE_DOTS);
-//		for (int i = 0;i<3;i++) {
-//			for (int j = 0;j<3;j++) {
-//				if (dots[j*3+i]) g.fillRect((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
-////				if (dots[j*3+i]) g.fillOval((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
-//			}
-//		}
-//		g.drawString((v+1)+" ("+v+")", x-30, y+20);
-//	}
+	private void drawDice() {
+		List<UseableDie> useableDice = Game.board().getDice().getUseableDice();
+		for (int i = 0;i<useableDice.size();i++) {
+			drawDie(MARGIN+BAR_WIDTH+Game.board().size()/2*GRID_SIZE_X+MARGIN, (int) (MARGIN+GRID_SIZE_Y*2.5*i), GRID_SIZE_Y*2, useableDice.get(i).getValue(), useableDice.get(i).isBeingUsed());
+		}
+	}
+
+	private void drawDie(int x, int y, int size, int v, boolean beingUsed) {
+		final int dotSize = size/8;
+		if (beingUsed) g.setColor(COLOR_DIE_BACKROUND.darker());
+		else g.setColor(COLOR_DIE_BACKROUND);
+		g.fillRect(x, y, size, size);
+		g.setColor(COLOR_DIE_OUTLINE);
+		g.setStroke(new BasicStroke(1));
+		g.drawRect(x, y, size, size);
+		boolean[] dots = {v>2, false, v>0, v==5, v%2==0, v==5, v>0, false, v>2};
+		g.setColor(COLOR_DIE_DOTS);
+		for (int i = 0;i<3;i++) {
+			for (int j = 0;j<3;j++) {
+				if (dots[j*3+i]) g.fillRect((x+(size/4)*i+size/4)-dotSize/2, (y+(size/4)*j+size/4)-dotSize/2, dotSize, dotSize);
+			}
+		}
+		g.drawString((v+1)+" ("+v+")", x-30, y+20);
+	}
 
 	private final static int textX = 25, textY = 30, textSize = 15;
 	private void drawDebug() {

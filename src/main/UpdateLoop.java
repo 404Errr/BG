@@ -1,7 +1,6 @@
 package main;
 
 import data.GameData;
-import game.Game;
 import graphics.Window;
 
 public class UpdateLoop implements GameData {
@@ -30,7 +29,7 @@ public class UpdateLoop implements GameData {
 //			Random rand = new Random();
 //			int i = rand.nextInt(24), j = rand.nextInt(24);
 //			Game.board().moveChecker(i, j);
-			Game.board().tick();
+//			Game.board().tick();
 		}
 		catch (Exception e) {
 			System.err.println("-UPDATE ERROR");

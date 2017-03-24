@@ -3,9 +3,6 @@ package board;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.RollableDie;
-import game.UseableDie;
-
 public class Dice {
 	private RollableDie[] rollableDice;
 	private List<UseableDie> useableDice;
@@ -23,11 +20,18 @@ public class Dice {
 			rollableDice[i].roll();
 		}
 		useableDice.clear();
-		for (int i = 0;i<rollableDice.length;i++) {
-			int j = 1;
-			if (i>0&&rollableDice[i-1]!=rollableDice[i]) j = 2;
-			for (int k = 0;k<j;k++) useableDice.add(new UseableDie(rollableDice[i].getValue()));
+		for (int d = 0;d<1||(d<2&&diceAreEqual());d++) {
+			for (int i = 0;i<rollableDice.length;i++) {
+				useableDice.add(new UseableDie(rollableDice[i].getValue()));
+			}
 		}
+	}
+
+	public boolean diceAreEqual() {
+		for (int i = 1;i<rollableDice.length;i++) {
+			if (rollableDice[i-1].getValue()!=rollableDice[i].getValue()) return false;
+		}
+		return true;
 	}
 
 	public List<Integer> getUseableValues() {

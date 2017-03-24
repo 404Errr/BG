@@ -2,8 +2,10 @@ package board;
 
 import java.util.Stack;
 
+import data.GameData;
+
 @SuppressWarnings("serial")
-public class Point<C> extends Stack<C> {
+public class Point<C> extends Stack<C> implements GameData {
 	private final int index;
 	private Point<C> neg, pos;
 
@@ -16,6 +18,7 @@ public class Point<C> extends Stack<C> {
 	}
 
 	public int getColor() {//color of checker on the top
+		if (isEmpty()) return EMPTY;
 		return ((Checker) peek()).getColor();
 	}
 

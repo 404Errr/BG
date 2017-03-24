@@ -2,20 +2,52 @@ package board;
 
 import java.util.List;
 
+import data.Direction;
 import data.GameData;
 import data.Layout;
+import game.Game;
 
 public class Board implements GameData {
 	private final List<Point<Checker>> points;
+	private final Dice dice;
 
 	public Board(int[][] layout) {
 		points = Layout.CreateLayout.createPoints(layout);
+		dice = new Dice();
+		while (dice.diceAreEqual()) dice.roll();
 	}
-//
-	public void tick() {
-//		for (int i = 0;i<points.length;i++) {
-//			points[i].tick();
-//		}
+
+	public boolean isLegalMove(Point<Checker> from, Point<Checker> to) {
+		System.out.println(from.getColor()+"\t"+to.getColor());
+		if (from==to||from.isEmpty()) return false;
+		if (from.getColor()!=to.getColor()&&to.size()>1) return false;
+		Direction dir = Direction.getDirection(from.getIndex(), to.getIndex());
+		if (dir==Direction.NONE) return false;
+		if ((from.getColor()==A)!=(dir==A_DIR)) return false;
+		List<Integer> values = dice.getUseableValues();
+		boolean isLegal = false;
+		for (int i = 0;i<values.size();i++) {
+			if (values.get(i)+1==Math.abs(from.getIndex()-to.getIndex())) {//+1 to the dice value
+				isLegal = true;
+			}
+		}
+		return isLegal;
+	}
+
+	public void rollDice() {
+		dice.roll();
+
+		System.out.println(Game.board().isLegalMove(Game.board().get(0), Game.board().get(1)));
+//		System.out.println(Game.board().isLegalMove(Game.board().get(12), Game.board().get(15), A));
+//		System.out.println(Game.board().isLegalMove(Game.board().get(8), Game.board().get(5), A));
+//		System.out.println(Game.board().isLegalMove(Game.board().get(11), Game.board().get(11), B));
+//		System.out.println(Game.board().isLegalMove(Game.board().get(17), Game.board().get(19), B));
+		System.out.println(Game.board().isLegalMove(Game.board().get(23), Game.board().get(22)));
+
+	}
+
+	public Dice getDice() {
+		return dice;
 	}
 
 //	public void deselectAll() {
