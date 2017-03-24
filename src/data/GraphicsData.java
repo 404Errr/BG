@@ -12,6 +12,7 @@ public interface GraphicsData {
 	float DEFAULT_WINDOW_SCREEN_RATIO = 0.8f;
 
 	int MARGIN = 100;
-	int CHECKER_SIZE = 50;
-	int ORIGIN_X = MARGIN, ORIGIN_Y = MARGIN;
+	int GRID_SIZE_X = 75;
+	int GRID_SIZE_Y = 50;
+	int BAR_WIDTH = GRID_SIZE_X*3/2;
 }

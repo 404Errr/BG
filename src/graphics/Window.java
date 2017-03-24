@@ -45,8 +45,8 @@ public class Window extends JFrame implements GraphicsData {
 		frame.addWindowListener(input);
 		frame.addComponentListener(input);
 		frame.add(rendererer);
-		System.out.println("Window size: "+width()+","+height());
 		frame.setVisible(true);
+		System.out.println("Window size: "+width()+","+height());
 	}
 
 	public static Renderer getRendererer() {
@@ -71,13 +71,5 @@ public class Window extends JFrame implements GraphicsData {
 
 	public static int centerY() {
 		return frame.getHeight()/2;
-	}
-	
-	public static int getOriginX() {
-		return ORIGIN_X;
-	}
-	
-	public static int getOriginY() {
-		return ORIGIN_Y;
 	}
 }

@@ -15,12 +15,6 @@ public class Point<C> extends Stack<C> {
 		}
 	}
 
-
-
-
-
-
-
 	public int getColor() {//color of checker on the top
 		return ((Checker) peek()).getColor();
 	}

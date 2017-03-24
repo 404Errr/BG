@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,9 +34,9 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 	}
 
 	private void drawBoard() {
-//		drawBars();
+		drawBars();
 //		drawHighlights();
-//		drawGrid();
+		drawGrid();
 	}
 //
 //	private void drawHighlights() {
@@ -74,32 +75,39 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 //		}
 //	}
 //
-//	private void drawGrid() {
-//		g.setStroke(new BasicStroke(1));
-//		for (int i = 0;i<Game.board().getPoints().length;i++) {//gird
-//			for (int j = 0;j<1||j<Game.board().getPoints()[i].getCheckers().size();j++) {
-//				g.setColor(COLOR_GRID);
-//				drawChecker(i, j, false);
-//			}
-//		}
-//	}
-//
-//	private void drawBars() {
-//		for (int i = 0;i<Game.board().getPoints().length;i++) {
-//			for (int j = 0;j<Game.board().getPoints()[i].getCheckers().size();j++) {
-//				g.setColor(CHECKER_COLORS[Game.board().getPoints()[i].peekColor()]);
-//				if (Game.board().getPoints()[i].getCheckers().get(j).isHovered()) {
-//					g.setColor(CHECKER_COLORS_H[Game.board().getPoints()[i].peekColor()]);
-//				}
-//				drawChecker(i, j, true);
-//			}
-//		}
-//	}
+	private void drawGrid() {
+		g.setStroke(new BasicStroke(1));
+		for (int i = 0;i<Game.board().size();i++) {//gird
+			for (int j = 0;j<1||j<Game.board().get(i).size();j++) {
+				g.setColor(COLOR_GRID);
+				drawGridRect(i, j, false);
+			}
+		}
+	}
 
-//	private void drawChecker(int point, int height, boolean fill) {
-//		if (fill) g.fillRect(point*CHECKER_SIZE+MARGIN, height*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
-//		g.drawRect(point*CHECKER_SIZE+MARGIN, height*CHECKER_SIZE+MARGIN, CHECKER_SIZE, CHECKER_SIZE);
-//	}
+	private void drawBars() {
+		for (int i = 0;i<Game.board().size();i++) {
+			for (int j = 0;j<Game.board().get(i).size();j++) {
+				g.setColor(CHECKER_COLORS[Game.board().get(i).getColor()]);
+//				if (Game.board().get(i).get(j).isHovered()) {
+//					g.setColor(CHECKER_COLORS_H[Game.board().get(i).getColor()]);
+//				}
+				drawGridRect(i, j, true);
+			}
+		}
+	}
+
+	private void drawGridRect(int p, int h, boolean fill) {
+		int xOffset = MARGIN, yOffset = MARGIN, vDir = 1;
+		if (p>=Game.board().size()/2) {
+			p = Game.board().size()-1-p;
+			yOffset = Window.height()-MARGIN-GRID_SIZE_Y;
+			vDir = -1;
+		}
+		if (p>=Game.board().size()/4&&p<Game.board().size()*3/4) xOffset+=BAR_WIDTH;
+		if (fill) g.fillRect(p*GRID_SIZE_X+xOffset, h*vDir*GRID_SIZE_Y+yOffset, GRID_SIZE_X, GRID_SIZE_Y);
+		g.drawRect(p*GRID_SIZE_X+xOffset, h*vDir*GRID_SIZE_Y+yOffset, GRID_SIZE_X, GRID_SIZE_Y);
+	}
 
 //	private void drawChecker(int point, int height, boolean fill, String str) {
 //		g.setColor(Color.BLACK);

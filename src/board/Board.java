@@ -9,7 +9,7 @@ public class Board implements GameData {
 	private final List<Point<Checker>> points;
 
 	public Board(int[][] layout) {
-		points = Layout.CreateLayout.getPoints(layout);
+		points = Layout.CreateLayout.createPoints(layout);
 	}
 //
 	public void tick() {
@@ -98,6 +98,15 @@ public class Board implements GameData {
 //	public boolean canMoveToFrom(Point to, Point from) {
 //		return !from.isEmpty()&&(to.peekColor()==from.peekColor()||to.height()<=1);
 //	}
+
+	public int size() {
+		return points.size();
+	}
+
+	public Point<Checker> get(int p) {
+//		if (p<0||p>=points.size()) return null;
+		return points.get(p);
+	}
 
 	public List<Point<Checker>> getPoints() {
 		return points;

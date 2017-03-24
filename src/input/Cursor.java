@@ -43,12 +43,4 @@ public class Cursor implements InputData, GraphicsData {
 	public static int getScreenY() {
 		return screenY;
 	}
-
-	public static int getBoardX() {//relative to board 0, 0
-		return screenX+ORIGIN_X;
-	}
-
-	public static int getBoardY() {
-		return screenY+ORIGIN_Y;
-	}
 }
