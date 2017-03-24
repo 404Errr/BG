@@ -15,14 +15,8 @@ public interface Layout extends GameData {
 		public static List<Point<Checker>> createPoints(int[][] layout) {
 			List<Point<Checker>> points = new ArrayList<>();
 			for (int i = 0;i<layout.length;i++) {
-				if (layout[i][1]==EMPTY) layout[i][0] = 0;//saftey
+				if (layout[i][1]==EMPTY) layout[i][0] = 0;//Safety
 				points.add(new Point<>(i, layout[i][0], layout[i][1]));
-			}
-			for (int i = 0;i<points.size();i++) {
-				Point<Checker> negative = null, postitve = null;
-				if (i>0) negative = points.get(i-1);
-				if (i<points.size()-1) postitve = points.get(i+1);
-				points.get(i).setNeighbors(negative, postitve);
 			}
 			for (Point<Checker> p:points) System.out.println(p);
 			return points;

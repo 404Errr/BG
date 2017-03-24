@@ -3,6 +3,7 @@ package board;
 import java.util.Stack;
 
 import data.GameData;
+import game.Game;
 
 @SuppressWarnings("serial")
 public class Point<C> extends Stack<C> implements GameData {
@@ -26,17 +27,17 @@ public class Point<C> extends Stack<C> implements GameData {
 		return index;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Point<C> getNeg() {
+		if (index>0&&neg==null) neg = (Point<C>) Game.board().get(index-1);
 		return neg;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Point<C> getPos() {
+		if (index==Game.board().size()-1) return null;
+		if (pos==null) pos = (Point<C>) Game.board().get(index+1);
 		return pos;
-	}
-
-	public void setNeighbors(Point<C> neg, Point<C> pos) {
-		this.neg = neg;
-		this.pos = pos;
 	}
 
 	@Override
