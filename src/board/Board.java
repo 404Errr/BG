@@ -1,5 +1,6 @@
 package board;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import data.Direction;
@@ -8,15 +9,33 @@ import data.Layout;
 import game.Game;
 
 public class Board implements GameData {
-	private final List<Point<Checker>> points;
+	private final List<Point<Checker>> points, captured, home;
 	private final Dice dice;
 
 	public Board(int[][] layout) {
 		points = Layout.CreateLayout.createPoints(layout);
+		captured = new ArrayList<>();
+		home = new ArrayList<>();
+		for (int i = 0;i<2;i++) {//FIXME -1 and 24
+			captured.add(new Point<Checker>(i, 0, i));
+			home.add(new Point<Checker>(i, 0, i));
+		}
 		dice = new Dice();
 		while (dice.diceAreEqual()) dice.roll();
 	}
 
+	public void move(Point<Checker> from, Point<Checker> to) {
+		if (!isLegalMove(from, to)) throw new UnsupportedOperationException("Illegal move "+from.getIndex()+"/"+to.getIndex());
+		if (wouldCapture(to)) {
+			to.pop();
+		}
+		to.push(from.pop());
+	}
+	
+	public boolean wouldCapture(Point<Checker> to) {
+		return to.size()==1;
+	}
+	
 	public boolean isLegalMove(Point<Checker> from, Point<Checker> to) {
 		System.out.println(from.getColor()+"\t"+to.getColor());
 		if (from==to||from.isEmpty()) return false;
