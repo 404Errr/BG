@@ -20,11 +20,3 @@ public enum Direction {
 		return getDirection(to-from);
 	}
 }
-//
-//class Test {
-//	public static void main(String[] args) {
-//		System.out.println(Direction.getDirection(4, 6));
-//		System.out.println(Direction.getDirection(4, 2));
-//		System.out.println(Direction.getDirection(4, 4));
-//	}
-//}

@@ -1,4 +1,4 @@
-package board;
+package dice;
 
 public class UseableDie {
 	private int value;

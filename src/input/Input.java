@@ -24,13 +24,10 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 				Game.board().rollDice();
 				break;
 			case KeyEvent.VK_T:
-//				Game.board().cycleTurn();
 				break;
 			case KeyEvent.VK_1:
-//				Game.board().capture(0);
 				break;
 			case KeyEvent.VK_2:
-//				Game.board().moveReleaseChecker(A, 21);
 				break;
 			case KeyEvent.VK_3:
 				break;
@@ -65,7 +62,7 @@ public class Input implements KeyListener, MouseInputListener, MouseWheelListene
 	}
 
 	public static void click(MouseEvent e, boolean down) {
-		if (down) Cursor.click(e, down);
+		Cursor.click(e, down);
 	}
 
 	@Override

@@ -6,45 +6,80 @@ import java.util.List;
 import data.Direction;
 import data.GameData;
 import data.Layout;
-import game.Game;
+import dice.Dice;
+import dice.UseableDie;
+import player.AIPlayer;
+import player.HumanPlayer;
+import player.Player;
 
 public class Board implements GameData {
 	private final List<Point<Checker>> points, captured, home;
 	private final Dice dice;
+	private Player currentPlayer;
+	private final List<Player> players;
 
 	public Board(int[][] layout) {
 		points = Layout.CreateLayout.createPoints(layout);
 		captured = new ArrayList<>();
 		home = new ArrayList<>();
-		for (int i = 0;i<2;i++) {//FIXME -1 and 24
-			captured.add(new Point<Checker>(i, 0, i));
-			home.add(new Point<Checker>(i, 0, i));
-		}
+		home.add(new Point<Checker>(-1, 0, A));
+		captured.add(new Point<Checker>(-1, 0, B));
+		home.add(new Point<Checker>(24, 0, B));
+		captured.add(new Point<Checker>(24, 0, A));
+		players = new ArrayList<>();
+		players.add(new HumanPlayer(0));
+//		players.add(new HumanPlayer(1));
+//		players.add(new AIPlayer(0));
+		players.add(new AIPlayer(1));
+		currentPlayer = players.get(0);
 		dice = new Dice();
 		while (dice.diceAreEqual()) dice.roll();
 	}
 
+	public void tick() {
+
+		if (needDiceRoll()) dice.roll();
+	}
+
 	public void move(Point<Checker> from, Point<Checker> to) {
-		if (!isLegalMove(from, to)) throw new UnsupportedOperationException("Illegal move "+from.getIndex()+"/"+to.getIndex());
-		if (wouldCapture(to)) {
-			to.pop();
-		}
+//		System.out.println("move         \tfrom = "+from+"\t\tto = "+to);
+		if (!isLegalMove(from, to)) throw new UnsupportedOperationException("Illegal move "+from.getIndex()+"-"+to.getIndex());
+		if (wouldCapture(from, to)) capture(to);
 		to.push(from.pop());
+		List<Integer> values = dice.getUseableValues();
+		find:
+		for (int i = 0;i<values.size();i++) {
+			if (values.get(i)+1==Math.abs(from.getIndex()-to.getIndex())) {//+1 to the dice value
+				for (int j = 0;j<dice.getUseableDice().size();j++) {
+					if (!dice.getUseableDice().get(j).isBeingUsed()&&values.get(i)==dice.getUseableDice().get(j).getValue()) {
+						dice.getUseableDice().get(j).setBeingUsed(true);
+						break find;
+					}
+				}
+			}
+		}
+
 	}
-	
-	public boolean wouldCapture(Point<Checker> to) {
-		return to.size()==1;
+
+	public boolean wouldCapture(Point<Checker> from, Point<Checker> to) {
+		return to.size()==1&&from.getColor()!=to.getColor();
 	}
-	
+
+	public boolean isLegalToMove(Point<Checker> from) {
+		if (!from.isEmpty()) return true;
+		return false;
+	}
+
 	public boolean isLegalMove(Point<Checker> from, Point<Checker> to) {
-		System.out.println(from.getColor()+"\t"+to.getColor());
-		if (from==to||from.isEmpty()) return false;
+//		System.out.println("illegal check\tfrom = "+from+"\t\tto = "+to);
+		if (from==null||to==null) return false;
+		if (from.isEmpty()) return false;
 		if (from.getColor()!=to.getColor()&&to.size()>1) return false;
 		Direction dir = Direction.getDirection(from.getIndex(), to.getIndex());
-		if (dir==Direction.NONE) return false;
-		if ((from.getColor()==A)!=(dir==A_DIR)) return false;
+		if (dir==Direction.NONE||(from.getColor()==A)!=(dir==A_DIR)) return false;
 		List<Integer> values = dice.getUseableValues();
 		for (int i = 0;i<values.size();i++) {
+//			System.out.println((values.get(i)+1)+"\t"+Math.abs(from.getIndex()-to.getIndex()));
 			if (values.get(i)+1==Math.abs(from.getIndex()-to.getIndex())) {//+1 to the dice value
 				return true;
 			}
@@ -52,16 +87,20 @@ public class Board implements GameData {
 		return false;
 	}
 
+	public boolean needDiceRoll() {
+		boolean needsRoll = true;
+		for (UseableDie die:dice.getUseableDice()) {
+			if (!die.isBeingUsed()) needsRoll = false;
+		}
+		return needsRoll;
+	}
+
 	public void rollDice() {
 		dice.roll();
+	}
 
-		System.out.println(Game.board().isLegalMove(Game.board().get(0), Game.board().get(1)));
-//		System.out.println(Game.board().isLegalMove(Game.board().get(12), Game.board().get(15), A));
-//		System.out.println(Game.board().isLegalMove(Game.board().get(8), Game.board().get(5), A));
-//		System.out.println(Game.board().isLegalMove(Game.board().get(11), Game.board().get(11), B));
-//		System.out.println(Game.board().isLegalMove(Game.board().get(17), Game.board().get(19), B));
-		System.out.println(Game.board().isLegalMove(Game.board().get(23), Game.board().get(22)));
-
+	public void capture(Point<Checker> point) {
+		captured.get(point.getColor()).push(point.pop());
 	}
 
 	public Dice getDice() {
@@ -161,4 +200,22 @@ public class Board implements GameData {
 	public List<Point<Checker>> getPoints() {
 		return points;
 	}
+
+	public List<Point<Checker>> getCaptured() {
+		return captured;
+	}
+
+	public List<Point<Checker>> getHome() {
+		return home;
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+
 }
