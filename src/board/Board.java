@@ -2,6 +2,7 @@ package board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import data.Direction;
 import data.GameData;
@@ -28,17 +29,22 @@ public class Board implements GameData {
 		captured.add(new Point<Checker>(24, 0, A));
 		players = new ArrayList<>();
 		players.add(new HumanPlayer(0));
-//		players.add(new HumanPlayer(1));
 //		players.add(new AIPlayer(0));
+//		players.add(new HumanPlayer(1));
 		players.add(new AIPlayer(1));
-		currentPlayer = players.get(0);
+		currentPlayer = players.get(new Random().nextInt(2));
 		dice = new Dice();
 		while (dice.diceAreEqual()) dice.roll();
 	}
 
 	public void tick() {
-
-		if (needDiceRoll()) dice.roll();
+		if (currentPlayer instanceof AIPlayer) {
+			((AIPlayer) currentPlayer).move();
+		}
+		if (needDiceRoll()) {//next turn
+			dice.roll();
+			cycleTurn();
+		}
 	}
 
 	public void move(Point<Checker> from, Point<Checker> to) {
@@ -105,6 +111,10 @@ public class Board implements GameData {
 
 	public Dice getDice() {
 		return dice;
+	}
+
+	public void cycleTurn() {
+		currentPlayer = (players.get(0)!=currentPlayer)?players.get(0):players.get(1);
 	}
 
 //	public void deselectAll() {

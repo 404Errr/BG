@@ -26,18 +26,21 @@ public class Point<C> extends Stack<C> implements GameData {
 
 	@SuppressWarnings("unchecked")
 	public void clicked() {
+		if (!(Game.board().getCurrentPlayer() instanceof HumanPlayer)) return;
+		HumanPlayer player = (HumanPlayer) Game.board().getCurrentPlayer();
 //		System.out.println("current player color = "+Game.board().getCurrentPlayer().getColor()+"\tpoint color = "+getColor());
-		if (Game.board().getCurrentPlayer().getColor()!=getColor()&&getColor()!=EMPTY) return;
-		if (((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint()!=this) {
-			if (((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint()!=null) {
-				((HumanPlayer) Game.board().getCurrentPlayer()).moveRequest(((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint(), (Point<Checker>) this);
+//		if (player.getColor()!=getColor()&&(size()>1&&player.getSelectedPoint()!=null)) return;
+		if (player.getColor()!=getColor()) return;
+		if (player.getSelectedPoint()!=this) {
+			if (player.getSelectedPoint()!=null) {
+				player.makeMoveRequest(player.getSelectedPoint(), (Point<Checker>) this);
 			}
 			else if (isSelectable()) {
 				((HumanPlayer) Game.board().getCurrentPlayer()).setSelectedPoint((Point<Checker>) this);
 				return;
 			}
 		}
-		((HumanPlayer) Game.board().getCurrentPlayer()).setSelectedPoint(null);
+		player.setSelectedPoint(null);
 	}
 
 	@SuppressWarnings("unchecked")

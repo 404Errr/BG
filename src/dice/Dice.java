@@ -25,6 +25,7 @@ public class Dice {
 				useableDice.add(new UseableDie(rollableDice[i].getValue()));
 			}
 		}
+		System.out.println((useableDice.get(0).getValue()+1)+"-"+(useableDice.get(1).getValue()+1));
 	}
 
 	public boolean diceAreEqual() {

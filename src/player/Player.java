@@ -15,7 +15,7 @@ public abstract class Player {
 		return color;
 	}
 
-	public void moveRequest(Point<Checker> from, Point<Checker> to) {
+	public void makeMoveRequest(Point<Checker> from, Point<Checker> to) {
 		if (!Game.board().isLegalMove(from, to)) return;
 		System.out.println(from.getIndex()+"/"+to.getIndex());
 		Game.board().move(from, to);
