@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import board.move.Move;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;
@@ -50,7 +51,7 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 				drawGridRect(p, Game.board().get(p).size()-1, false);
 			}
 			else {
-				if (Game.board().isLegalMove(((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint(), Game.board().get(p))) {
+				if (Game.board().isLegalMove(new Move(((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint(), Game.board().get(p)))) {
 					drawGridRect(p, Game.board().get(p).size(), false);
 				}
 			}

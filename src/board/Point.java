@@ -28,9 +28,8 @@ public class Point<C> extends Stack<C> implements GameData {
 	public void clicked() {
 		if (!(Game.board().getCurrentPlayer() instanceof HumanPlayer)) return;
 		HumanPlayer player = (HumanPlayer) Game.board().getCurrentPlayer();
-//		System.out.println("current player color = "+Game.board().getCurrentPlayer().getColor()+"\tpoint color = "+getColor());
-//		if (player.getColor()!=getColor()&&(size()>1&&player.getSelectedPoint()!=null)) return;
-		if (player.getColor()!=getColor()) return;
+		if (player.getColor()!=getColor()&&size()>1) return;
+		if (player.getColor()!=getColor()&&player.getSelectedPoint()==null) return;
 		if (player.getSelectedPoint()!=this) {
 			if (player.getSelectedPoint()!=null) {
 				player.makeMoveRequest(player.getSelectedPoint(), (Point<Checker>) this);
@@ -67,9 +66,8 @@ public class Point<C> extends Stack<C> implements GameData {
 
 	@Override
 	public String toString() {
-		return "index = "+index+"\theight = "+size()+"\tcolor = "+getColor();
+		return "index = "+(index+1)+" ("+index+")\theight = "+size()+"\tcolor = "+getColor();
 	}
-
 
 //	@Override
 //	public String toString() {

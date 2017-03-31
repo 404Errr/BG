@@ -23,7 +23,6 @@ public class Cursor implements InputData, GraphicsData {
 			switch (e.getButton()) {
 			case MouseEvent.BUTTON1://left
 				for (int p = 0;p<Game.board().size();p++) {
-//					if (Game.board().get(p).isEmpty()) continue;
 					for (int h = 0;h<Game.board().get(p).size()+1;h++) {
 						if (Game.getGridBounds(p, h).contains(screenX, screenY)) {
 							Game.board().get(p).clicked();
