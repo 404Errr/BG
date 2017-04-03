@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 
 import data.GraphicsData;
 import data.InputData;
+import game.Game;
 import graphics.Window;
 
 public class Cursor implements InputData, GraphicsData {
@@ -18,6 +19,26 @@ public class Cursor implements InputData, GraphicsData {
 	}
 
 	public static void click(MouseEvent e, boolean down) {
+		if (down) {
+			switch (e.getButton()) {
+			case MouseEvent.BUTTON1://left
+				for (int p = 0;p<Game.board().size();p++) {
+					for (int h = 0;h<Game.board().get(p).size()+1;h++) {
+						if (Game.getGridBounds(p, h).contains(screenX, screenY)) {
+							Game.board().get(p).clicked();
+							break;
+						}
+					}
+				}
+				break;
+			case MouseEvent.BUTTON2://middle
+
+				break;
+			case MouseEvent.BUTTON3://right
+
+				break;
+			}
+		}
 //		e = SwingUtilities.convertMouseEvent(Window.getFrame(), e, Window.getRendererer());
 //		switch (e.getButton()) {
 //		case MouseEvent.BUTTON1://left

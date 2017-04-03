@@ -1,4 +1,4 @@
-package board;
+package dice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,7 @@ public class Dice {
 				useableDice.add(new UseableDie(rollableDice[i].getValue()));
 			}
 		}
+		System.out.println("Roll:\t"+(useableDice.get(0).getValue()+1)+"-"+(useableDice.get(1).getValue()+1));
 	}
 
 	public boolean diceAreEqual() {
@@ -37,7 +38,7 @@ public class Dice {
 	public List<Integer> getUseableValues() {
 		List<Integer> useableValues = new ArrayList<>();
 		for (int i = 0;i<useableDice.size();i++) {
-			useableValues.add(useableDice.get(i).getValue());
+			if (!useableDice.get(i).isBeingUsed()) useableValues.add(useableDice.get(i).getValue());
 		}
 		return useableValues;
 	}

@@ -8,11 +8,13 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import board.UseableDie;
+import board.move.Move;
 import data.ColorData;
 import data.GameData;
 import data.GraphicsData;
+import dice.UseableDie;
 import game.Game;
+import player.HumanPlayer;
 
 @SuppressWarnings("serial")
 public class Renderer extends JPanel implements ColorData, GameData, GraphicsData {
@@ -37,14 +39,23 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 
 	private void drawBoard() {
 		drawBars();
-//		drawHighlights();
+		if (Game.board().getCurrentPlayer() instanceof HumanPlayer) drawHighlights();
 		drawGrid();
 	}
-//
-//	private void drawHighlights() {
-//		g.setStroke(new BasicStroke(5));
-//		g.setColor(COLOR_HIGHLIGHT);
-//		for (int i = 0;i<Game.board().getPoints().length;i++) {
+
+	private void drawHighlights() {
+		g.setStroke(new BasicStroke(5));
+		g.setColor(COLOR_HIGHLIGHT);
+		for (int p = 0;p<Game.board().size();p++) {
+			if (Game.board().get(p)==((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint()) {
+				drawGridRect(p, Game.board().get(p).size()-1, false);
+			}
+			else {
+				if (Game.board().isLegalMove(new Move(((HumanPlayer) Game.board().getCurrentPlayer()).getSelectedPoint(), Game.board().get(p)))) {
+					drawGridRect(p, Game.board().get(p).size(), false);
+				}
+			}
+		}
 //			Point point = Game.board().getPoints()[i];
 //			int height = point.height();
 //			if (Game.board().anyAreSelected()) {
@@ -75,8 +86,8 @@ public class Renderer extends JPanel implements ColorData, GameData, GraphicsDat
 ////				}
 ////			}
 //		}
-//	}
-//
+	}
+
 	private void drawGrid() {
 		g.setStroke(new BasicStroke(1));
 		for (int i = 0;i<Game.board().size();i++) {//gird

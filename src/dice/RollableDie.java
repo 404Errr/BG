@@ -1,4 +1,4 @@
-package board;
+package dice;
 
 import java.util.Random;
 
