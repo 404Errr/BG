@@ -40,7 +40,7 @@ public class Board implements GameData {
 	}
 
 	public void tick() {
-		if (needDiceRoll()) {//next turn
+		if (needDiceRoll()) {
 			dice.roll();
 			cycleTurn();
 		}
